@@ -60,7 +60,7 @@ window.onload = function(){
     myLives = function(){
     	showLives.innerHTML = "You have " + lives + " lives";
 	    if (lives < 1) {
-	      showLives.innerHTML = "Game Over";
+	      showLives.innerHTML = "Game Over";       
 	    }
 	    for (var i = 0; i < geusses.length; i++) {
 	      if (counter === geusses.length) {
@@ -72,6 +72,9 @@ window.onload = function(){
         wins++;
         console.log("Number Of Wins" + wins);
         document.getElementById("wins").innerHTML = "Number of Wins = " + wins;
+        playMore();
+      } else if(showLives.innerHTML == "Game Over"){
+        playMore();
       }
     }
 
@@ -79,6 +82,12 @@ window.onload = function(){
     	//If user selects a letter from grid 
     	list.onclick = function () {
       	var guess = (this.innerHTML);
+
+        //Store letter guessed in array
+        letterGuessed.push(guess.toUpperCase());
+        console.log(letterGuessed);
+        document.getElementById("guessedLetters").innerHTML = letterGuessed;
+
       	console.log("Inside onclick function Guess =" + guess);
       	this.setAttribute("class", "active");
       	this.onclick = null;
@@ -99,15 +108,17 @@ window.onload = function(){
 	      } else {
 	        myLives();
 	      }
-          //Print letter guessed
-         letterGuessed.push(guess.toUpperCase());
-         console.log(letterGuessed);
-         document.getElementById("guessedLetters").innerHTML = letterGuessed;
 	    }
 
 	    //If user decides to use keyboard
 	    this.onkeyup = function(){
             var guess = String.fromCharCode(event.keyCode).toLowerCase();
+
+            // Store letter guessed in array
+            letterGuessed.push(guess.toUpperCase());
+            console.log(letterGuessed);
+            document.getElementById("guessedLetters").innerHTML = letterGuessed;
+
             console.log("Inside onkeyup function Guess =" + guess);
 
             // Bisable Current key pressed on the screen alphabet keyboard
@@ -120,7 +131,7 @@ window.onload = function(){
                   }
               }
 
-            //Find if key pressed exist in the word
+          //Find if key pressed exist in the word
         	for (var i = 0; i < word.length; i++) {
 	        if(word[i] === guess) {
 	          geusses[i].innerHTML = guess;
@@ -133,20 +144,20 @@ window.onload = function(){
 	      if (j === -1) {
 	        lives -= 1;
             console.log("Inside WRONG WORD Keyup Function Lives = " + lives);
-            this.onkeyup = null;
+            //this.onkeyup = null;
 	        myLives();
 	      } else {
 	        myLives();
 	      }
-        //Print letter guessed
-        letterGuessed.push(guess.toUpperCase());
-        console.log(letterGuessed);
-        document.getElementById("guessedLetters").innerHTML = letterGuessed;
-
 	    }
+    }//checkWord Function Ends
 
-	    
-
+    playMore = function() {
+        guessWordHolder.parentNode.removeChild(guessWordHolder);
+        letters.parentNode.removeChild(letters);
+        letterGuessed = [];
+        document.getElementById("guessedLetters").innerHTML = " ";
+        play();
     }
 
     play = function(){
@@ -173,10 +184,11 @@ window.onload = function(){
       geusses = [ ];
     	lives = 10;
     	counter = 0;
-
+      letterGuessed = [];      
     	//Create Blank spaces to fill correct user guesses
     	createWordHolder();
     	myLives();
+      document.getElementById("guessedLetters").innerHTML = "Letters Guessed So Far";
     }//play ends
 
     //call play
