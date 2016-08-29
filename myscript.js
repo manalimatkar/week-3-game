@@ -188,7 +188,7 @@ window.onload = function(){
     	//Create Blank spaces to fill correct user guesses
     	createWordHolder();
     	myLives();
-      document.getElementById("guessedLetters").innerHTML = "Letters Guessed So Far";
+      document.getElementById("guessedLetters").innerHTML = "Letters Guessed";
     }//play ends
 
     //call play
